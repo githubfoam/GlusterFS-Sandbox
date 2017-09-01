@@ -1,0 +1,17 @@
+---
+# https://www.archlinux.org/mirrorlist/
+- name: Download current pacman mirrorlist
+  get_url:
+      url: https://www.archlinux.org/mirrorlist/?country=DE&protocol=https&ip_version=4&use_mirror_status=on
+      dest: /etc/pacman.d/mirrorlist
+      force: yes
+      mode: 0644
+  changed_when: false
+
+- name: Strip out comments of mirrorlist file
+  raw: sed -i "s/^#Server/Server/g" /etc/pacman.d/mirrorlist
+  changed_when: false
+
+- name: Refreshing pacman repo data
+  pacman:
+      update_cache: yes

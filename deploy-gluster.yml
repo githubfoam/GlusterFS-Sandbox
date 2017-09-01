@@ -1,0 +1,13 @@
+---
+- hosts: gluster-cluster
+  gather_facts: false
+
+  roles:
+      - basic-stuff
+      - mirrorlist
+      - gluster-cluster
+
+- hosts: client.example.lan
+  roles:
+      - basic-stuff
+      - gluster-client

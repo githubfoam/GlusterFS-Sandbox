@@ -1,0 +1,14 @@
+---
+- name: Installing packages
+  yum:
+      name: "{{ item }}"
+      state: present
+  with_items:
+      - glusterfs
+      - glusterfs-fuse
+      - attr
+
+- name: Mounting gluster-cluster
+  shell: mount -t glusterfs gluster1.example.lan:/test-volume /mnt
+  args:
+      warn: no

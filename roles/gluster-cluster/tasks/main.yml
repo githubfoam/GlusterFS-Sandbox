@@ -1,0 +1,36 @@
+---
+- name: Installing glusterfs
+  pacman:
+      name: glusterfs
+      state: present
+
+- name: Starting glusterd
+  systemd:
+      name: glusterd
+      state: started
+      enabled: true
+      masked: false
+
+- name: Creating brick folder
+  file:
+      path: "/gluster/{{ item }}"
+      state: directory
+  with_items:
+      - brick1
+      - brick2
+
+- name: Probing the other servers from host gluster1
+  shell: "gluster peer probe {{ item }}"
+  with_items:
+      - gluster2.example.lan
+      - gluster3.example.lan
+      - gluster4.example.lan
+  when: inventory_hostname == "gluster1.example.lan"
+
+- name: Creating gluster volume
+  shell: "gluster volume create test-volume stripe 4 transport tcp gluster1.example.lan:/gluster/brick1 gluster1.example.lan:/gluster/brick2 gluster2.example.lan:/gluster/brick1 gluster2.example.lan:/gluster/brick2 gluster3.example.lan:/gluster/brick1 gluster3.example.lan:/gluster/brick2 gluster4.example.lan:/gluster/brick1 gluster4.example.lan:/gluster/brick2 force"
+  when: inventory_hostname == "gluster1.example.lan"
+
+- name: Starting the gluster volume
+  shell: gluster volume start test-volume
+  when: inventory_hostname == "gluster1.example.lan"
