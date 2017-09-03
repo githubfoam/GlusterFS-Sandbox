@@ -4,8 +4,9 @@
 127.0.0.1       localhost.localdomain   localhost
 ::1             localhost.localdomain   localhost
 
-192.168.33.2    gluster1.example.lan
-192.168.33.3    gluster2.example.lan
-192.168.33.4    gluster3.example.lan
-192.168.33.5    gluster4.example.lan
+{% for host in groups.gluster_cluster %}
+{{ hostvars[host].ansible_ssh_host }}   {{ host }}
+{% endfor %}
+
 192.168.33.10   client.example.lan
+192.168.33.10   storage.example.lan

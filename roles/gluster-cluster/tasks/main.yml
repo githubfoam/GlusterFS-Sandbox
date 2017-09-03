@@ -1,34 +1,57 @@
 ---
-- name: Installing glusterfs
+- name: Installing packages
   pacman:
-      name: glusterfs
+      name: "{{ item }}"
       state: present
+  with_items:
+      - glusterfs
+      - rpcbind
+      - keepalived
 
-- name: Starting glusterd
+- name: Enabling nonlocal IP binding
+  shell: "echo 1 > /proc/sys/net/ipv4/ip_nonlocal_bind"
+
+- name: Persisting nonlocal IP binding
+  copy:
+      src: sysctl
+      dest: /etc/sysctl.d/allow-nonlocal-bind
+
+- name: Deploying systemd service files
+  template:
+      src: "{{ item }}.service.j2"
+      dest: "/usr/lib/systemd/system/{{ item }}.service"
+  with_items: "{{ daemons }}"
+
+- name: Deploying keepalived config
+  template:
+      src: keepalived.conf.j2
+      dest: /etc/keepalived/keepalived.conf
+
+- name: Starting daemons
   systemd:
-      name: glusterd
+      name: "{{ item }}"
       state: started
       enabled: true
       masked: false
+      daemon_reload: true
+  with_items: "{{ daemons }}"
 
-- name: Creating brick folder
+- name: Creating /gluster folder
   file:
-      path: "/gluster/{{ item }}"
+      path: /gluster
       state: directory
-  with_items:
-      - brick1
-      - brick2
 
 - name: Probing the other servers from host gluster1
   shell: "gluster peer probe {{ item }}"
-  with_items:
-      - gluster2.example.lan
-      - gluster3.example.lan
-      - gluster4.example.lan
+  with_items: "{{ groups.gluster_cluster }}"
   when: inventory_hostname == "gluster1.example.lan"
 
 - name: Creating gluster volume
-  shell: "gluster volume create test-volume stripe 4 transport tcp gluster1.example.lan:/gluster/brick1 gluster1.example.lan:/gluster/brick2 gluster2.example.lan:/gluster/brick1 gluster2.example.lan:/gluster/brick2 gluster3.example.lan:/gluster/brick1 gluster3.example.lan:/gluster/brick2 gluster4.example.lan:/gluster/brick1 gluster4.example.lan:/gluster/brick2 force"
+  shell: "gluster volume create test-volume replica 3 transport tcp gluster1.example.lan:/gluster gluster2.example.lan:/gluster gluster3.example.lan:/gluster force"
+  when: inventory_hostname == "gluster1.example.lan"
+
+- name: Reducing network timeout
+  shell: "gluster volume set test-volume network.ping-timeout 3"
   when: inventory_hostname == "gluster1.example.lan"
 
 - name: Starting the gluster volume

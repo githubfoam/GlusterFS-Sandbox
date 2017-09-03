@@ -1,13 +1,19 @@
 ---
-- hosts: gluster-cluster
+- hosts: all
   gather_facts: false
 
   roles:
       - basic-stuff
+
+- hosts: gluster_cluster
+  gather_facts: false
+
+  roles:
       - mirrorlist
       - gluster-cluster
 
 - hosts: client.example.lan
+  gather_facts: false
+
   roles:
-      - basic-stuff
       - gluster-client

@@ -12,7 +12,7 @@ Vagrant.configure("2") do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://vagrantcloud.com/search.
-  config.vm.box = "terrywang/archlinux"
+  config.vm.box = "austinbutler/archlinux-cli-x86_64"
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -70,39 +70,19 @@ Vagrant.configure("2") do |config|
   # SHELL
 
   config.vm.define "gluster1" do |gluster|
-    gluster.vm.network "private_network", ip: "192.168.33.2", auto_config: false
-
-    gluster.vm.provision "shell", inline: <<-SHELL
-      ip addr add 192.168.33.2/24 dev enp0s8
-    SHELL
+    gluster.vm.network "private_network", ip: "192.168.33.11"
   end
 
   config.vm.define "gluster2" do |gluster|
-    gluster.vm.network "private_network", ip: "192.168.33.3", auto_config: false
-
-    gluster.vm.provision "shell", inline: <<-SHELL
-      ip addr add 192.168.33.3/24 dev enp0s8
-    SHELL
+    gluster.vm.network "private_network", ip: "192.168.33.12"
   end
 
   config.vm.define "gluster3" do |gluster|
-    gluster.vm.network "private_network", ip: "192.168.33.4", auto_config: false
-
-    gluster.vm.provision "shell", inline: <<-SHELL
-      ip addr add 192.168.33.4/24 dev enp0s8
-    SHELL
-  end
-
-  config.vm.define "gluster4" do |gluster|
-    gluster.vm.network "private_network", ip: "192.168.33.5", auto_config: false
-
-    gluster.vm.provision "shell", inline: <<-SHELL
-      ip addr add 192.168.33.5/24 dev enp0s8
-    SHELL
+    gluster.vm.network "private_network", ip: "192.168.33.13"
   end
 
   config.vm.define "client" do |client|
-    client.vm.network "private_network", ip: "192.168.33.10"
+    client.vm.network "private_network", ip: "192.168.33.2"
     client.vm.box = "centos/7"
   end
 

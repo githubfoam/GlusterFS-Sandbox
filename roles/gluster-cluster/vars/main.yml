@@ -1,0 +1,6 @@
+---
+daemons:
+    - keepalived
+    - glusterd
+
+daemons_startup_delay: 30

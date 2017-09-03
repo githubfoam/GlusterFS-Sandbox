@@ -1,13 +1,11 @@
 GlusterFS Cluster Sandbox
 =========================
 
-This little sandbox spins up a GlusterFS cluster containing a distributed striped volume on four servers. In theory eight servers should be used for that scenario but I guess no one has 8 storage servers in the data center. The more realistic scenario is 4 servers with two hardware RAIDs.
+This little sandbox spins up a GlusterFS cluster containing a distributed  volume on three servers.
 
 ## What you get
 
-It should look like this but with four servers: https://github.com/gluster/glusterdocs/blob/master/images/Striped_Replicated_Volume.png
-
-Why four servers? Half of the data would be lost if for example a storage node with two RAIDs (GlusterFS uses the term "brick") looses power.
+Why three servers? In this scenario two servers can fail.
 In total five virtual machines are created. Four Storage nodes (GlusterFS calls them peers) and a client.
 
 The storage nodes are based on Arch Linux and the client is a CentOS 7. You can of course use CentOS on the storage nodes but I don't like CentOS. But that's nothing I want to discuss here now :-)

@@ -1,0 +1,7 @@
+#
+# Managed by ansible
+# Role: gluster-cluster
+#
+# Needed to let keepalived to bind to an not yet existing IP address (Virtual IP)
+#
+net.ipv4.ip_nonlocal_bind = 1

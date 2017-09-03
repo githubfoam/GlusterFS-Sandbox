@@ -1,0 +1,23 @@
+#
+# Managed by ansible
+# Role: gluster-cluster
+#
+
+[Unit]
+Description=LVS and VRRP High Availability Monitor
+After=syslog.target network-online.target
+
+[Service]
+Type=forking
+PIDFile=/var/run/keepalived.pid
+KillMode=process
+EnvironmentFile=-/etc/sysconfig/keepalived
+# Delay startup for {{ daemons_startup_delay }} seconds
+# Background: Vagrant has to set up the network first
+# Source: https://lists.freedesktop.org/archives/systemd-devel/2016-January/035524.html
+ExecStartPre=/usr/bin/sleep {{ daemons_startup_delay }}
+ExecStart=/usr/bin/keepalived $KEEPALIVED_OPTIONS
+ExecReload=/bin/kill -HUP $MAINPID
+
+[Install]
+WantedBy=multi-user.target
