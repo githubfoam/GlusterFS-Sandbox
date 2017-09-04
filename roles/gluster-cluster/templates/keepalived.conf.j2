@@ -4,20 +4,12 @@
 #
 
 vrrp_instance glusterstorage {
-    {% if inventory_hostname == "gluster1.example.lan" %}
-    state MASTER
-    {% else %}
     state BACKUP
-    {% endif %}
 
     interface eth1
     virtual_router_id 5
 
-    {% if inventory_hostname == "gluster1.example.lan" %}
     priority 100
-    {% else %}
-    priority 10
-    {% endif %}
 
     advert_int 1
     authentication {
