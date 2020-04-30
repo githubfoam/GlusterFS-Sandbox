@@ -1,6 +1,14 @@
 GlusterFS Cluster Sandbox
 =========================
 
+Travis (.com) branch:
+[![Build Status](https://travis-ci.com/githubfoam/glusterfs-sandbox.svg?branch=pipeline)](https://travis-ci.com/githubfoam/glusterfs-sandbox)  
+
+```
+>vagrant up
+
+```
+
 This little sandbox spins up a GlusterFS cluster containing a distributed  volume on three servers.
 
 ## What you get
