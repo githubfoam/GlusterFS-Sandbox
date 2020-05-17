@@ -2,7 +2,7 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-  config.vm.box = "austinbutler/archlinux-cli-x86_64" #archlinux/archlinux
+  config.vm.box = "archlinux/archlinux" #archlinux/archlinux
   config.vm.synced_folder ".", "/vagrant", disabled: true
 
 
