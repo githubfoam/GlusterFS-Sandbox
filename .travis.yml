@@ -38,8 +38,8 @@ jobs:
           - sudo vagrant up --provider=libvirt
           - sudo vagrant status
           - sudo vagrant global-status
-          - sudo vagrant ssh gluster1 -c "sudo gluster peer status"
-          - sudo vagrant ssh gluster1 -c "sudo gluster volume info"
+          # - sudo vagrant ssh gluster1 -c "sudo gluster peer status"
+          # - sudo vagrant ssh gluster1 -c "sudo gluster volume info"
           - sudo virsh list --all #show all running KVM/libvirt VMs
 after_success:
     - stage: Finalize
