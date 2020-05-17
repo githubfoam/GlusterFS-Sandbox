@@ -1,7 +1,7 @@
 ---
 - name: Installing packages
   yum:
-      name: "{{ item }}"
+      name: "{{ item }}"
       state: present
   with_items:
       - glusterfs

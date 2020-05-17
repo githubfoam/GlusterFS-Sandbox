@@ -1,6 +1,6 @@
 ---
 - name: Setting hostname
-  shell: "hostnamectl set-hostname {{ inventory_hostname }}"
+  shell: "hostnamectl set-hostname {{ inventory_hostname }}"
 
 - name: Uploading hosts file
   template:

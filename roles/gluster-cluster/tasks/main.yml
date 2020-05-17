@@ -19,8 +19,8 @@
 - name: Deploying systemd service files
   template:
       src: "{{ item }}.service.j2"
-      dest: "/usr/lib/systemd/system/{{ item }}.service"
-  with_items: "{{ daemons }}"
+      dest: "/usr/lib/systemd/system/{{ item }}.service"
+  with_items: "{{ daemons }}"
 
 - name: Deploying keepalived config
   template:
@@ -34,7 +34,7 @@
       enabled: true
       masked: false
       daemon_reload: true
-  with_items: "{{ daemons }}"
+  with_items: "{{ daemons }}"
 
 - name: Creating /gluster folder
   file:
@@ -42,7 +42,7 @@
       state: directory
 
 - name: Probing the other servers from host gluster1
-  shell: "gluster peer probe {{ item }}"
+  shell: "gluster peer probe {{ item }}"
   with_items: "{{ groups.gluster_cluster }}"
   when: inventory_hostname == "gluster1.example.lan"
 
