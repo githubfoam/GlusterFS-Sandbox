@@ -35,19 +35,22 @@ jobs:
           - sudo vagrant box add "centos/7" --provider=libvirt
           - vagrant box list #veridy installed boxes
           - vagrant status #Check the status of the VMs to see that none of them have been created yet
-          - bash vagrant-up-multiple_libvirt.sh
-          # - sudo vagrant up --provider=libvirt
-          - sudo vagrant status
-          - sudo apt install software-properties-common -y
-          - sudo apt-add-repository --yes --update ppa:ansible/ansible
-          - sudo apt install ansible -y
-          - ansible --version
-          - sudo ansible-playbook deploy-gluster.yml
-          - sudo vagrant global-status
-          - sudo vagrant ssh gluster1 -c "sudo gluster peer status"
-          - sudo vagrant ssh gluster1 -c "sudo gluster volume info"
-          - sudo vagrant ssh gluster2 -c "sudo gluster peer status"
-          - sudo vagrant ssh gluster2 -c "sudo gluster volume info"
+          - sudo git clone https://github.com/gluster/gluster-kubernetes.git && cd vgarant
+          - sudo bash up.sh
+
+          # - bash vagrant-up-multiple_libvirt.sh
+          # # - sudo vagrant up --provider=libvirt
+          # - sudo vagrant status
+          # - sudo apt install software-properties-common -y
+          # - sudo apt-add-repository --yes --update ppa:ansible/ansible
+          # - sudo apt install ansible -y
+          # - ansible --version
+          # - sudo ansible-playbook deploy-gluster.yml
+          # - sudo vagrant global-status
+          # - sudo vagrant ssh gluster1 -c "sudo gluster peer status"
+          # - sudo vagrant ssh gluster1 -c "sudo gluster volume info"
+          # - sudo vagrant ssh gluster2 -c "sudo gluster peer status"
+          # - sudo vagrant ssh gluster2 -c "sudo gluster volume info"
           - sudo virsh list --all #show all running KVM/libvirt VMs
 after_success:
     - stage: Finalize
