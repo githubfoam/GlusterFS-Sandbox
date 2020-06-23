@@ -35,7 +35,8 @@ jobs:
           - sudo vagrant box add "centos/7" --provider=libvirt
           - vagrant box list #veridy installed boxes
           - vagrant status #Check the status of the VMs to see that none of them have been created yet
-          - sudo git clone https://github.com/gluster/gluster-kubernetes.git && cd vgarant
+          - sudo git clone https://github.com/gluster/gluster-kubernetes.git && gluster-kubernetes
+          - sudo git checkout v1.2.0 && cd vagrant
           - sudo bash up.sh
 
           # - bash vagrant-up-multiple_libvirt.sh
